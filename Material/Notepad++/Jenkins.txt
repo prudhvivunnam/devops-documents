@@ -1,0 +1,29 @@
+
+https://www.youtube.com/watch?v=DULs4Wq4xMg  JENKINS EMAIL NOTIFICATION
+
+https://www.youtube.com/watch?v=QvFungzXI5s  JENKINS USER CREATION
+
+
+
+JENKINS war file backup
+
+#!/bin/sh
+
+backupdnumber=$(( $BUILD_NUMBER-1))
+echo $backupdnumber
+
+#sudo sh /opt/tomcat7/bin/shutdown.sh
+
+if test -f /opt/tomcat7/webapps/madhu.war
+then
+sudo mv /opt/tomcat7/webapps/madhu.war /opt/tomcat7/webapps/madhu.war_$backupdnumber
+echo "Existing madhu.war file backup completed"
+fi
+
+if test /opt/tomcat7/webapps/madhu
+then
+sudo rm -rf /opt/tomcat7/webapps/madhu
+echo "old madhu file has been removed"
+fi
+
+#sudo sh /opt/tomcat7/bin/startup.sh

@@ -1,0 +1,41 @@
+cookbook
+	A cookbook is the fundamental unit of configuration and policy distribution.
+
+data bag
+	A data_bag is a global variable that is stored as JSON data and is accessible from a Chef server.
+	
+environment
+	An environment is a way to map an organization’s real-life workflow to what can be configured and managed when using Chef server.
+	
+kitchen
+	Kitchen is an integration framework that is used to automatically test cookbook data across any combination of platforms and test suites. Kitchen is packaged in the Chef development kit.	
+	
+knife
+	A command-line tool that provides an interface between a local chef-repo and the Chef server. Use it to manage nodes, cookbooks, recipes, roles, data bags, environments, bootstrapping nodes, searching the Chef server, and more.	
+	
+policy
+	Policy settings can be used to map business and operational requirements, such as process and workflow, to settings and objects stored on the Chef server. See roles, environments, and data bags.	
+	
+recipe
+	A recipe is a collection of resources that tells the chef-client how to configure a node.	
+	
+role
+A role is a way to define certain patterns and processes that exist across nodes in an organization as belonging to a single job function.	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

@@ -1,0 +1,200 @@
+## MASTER NODE ##
+
+#!/bin/bash
+
+#Expose Master IP
+export MASTER_IP=<<<PUBLIC IP>>>
+
+
+# Update the Ubuntu & Upgrade 
+sudo apt-get update && apt-get upgrade -y
+
+
+#Add Repository
+sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+
+
+#Add Repository
+sudo cat <<EOF > /etc/apt/sources.list.d/kubernetes.list
+deb http://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+
+
+#Update Ubuntu
+sudo apt-get update -y
+
+
+#Install Docker
+sudo apt-get install -y docker.io
+
+
+#Install kubelet kubeadm kubectl kubernetes-cni
+sudo apt-get install -y --allow-unauthenticated kubelet kubeadm kubectl kubernetes-cni
+
+
+#Install kubeadmin
+
+export MASTER_IP=<<<PUBLIC IP>>>
+
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16  --apiserver-advertise-address $MASTER_IP
+
+
+### Copy & SAVE Joining TOKEN IN TEXT FILE ###
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+# Export Config File #
+sudo cp /etc/kubernetes/admin.conf $HOME/
+
+sudo chown $(id -u):$(id -g) $HOME/admin.conf
+
+export KUBECONFIG=$HOME/admin.conf
+
+
+# Add pannel for Networking #
+sudo curl -sSL "https://github.com/coreos/flannel/blob/master/Documentation/kube-flannel.yml?raw=true" | kubectl --namespace=kube-system create -f -
+
+
+# Add for Dashboard BUT IT IS NOT WORKING #
+sudo kubectl apply -f https://rawgit.com/kubernetes/dashboard/master/src/deploy/kubernetes-dashboard.yaml --namespace=kube-system
+
+
+
+
+
+=============================================================================================================================================
+
+
+### COMMANDS ###
+
+kubectl cluster-info 
+
+lsof -i
+
+kubectl get nodes	#Show available nodes list
+
+kubectl get pods  	#Show available pods list
+
+kubectl get deployments #Show available Deployments list
+
+kubectl get rs  	#show the replicas details
+
+kubectl get service (OR)  #show the exposed port no
+kubectl get svc
+
+kubectl get cs    	#Show cluster information
+
+kubectl get pods --all-namespaces
+
+kubectl get deployments   	#show the deployments details
+kubectl get deploy
+
+kubectl run --image=nginx <Container Name>   # Create Pod
+
+kubectl logs <Container name>  #Show pod logs
+
+kubectl expose pod myweb-999d5fcbc-n5k55 --port=80 --target-port=80 --type=NodePort  ### Manual Expose the container port
+
+kubectl describe pod web-pod  ## Show the web pod details
+
+kubectl scale rs/web-rs --replicas=10      ##### increase the replicas 10 no
+
+kubectl scale rs/web-rs --replicas=2      ##### decrease the replicas from 10 to 2 no
+
+kubectl create -f db-pod.yml -f db-service.yml -f web-pod.yml -f web-service.yml     ## Create Pods & Services
+
+kubectl delete pod myweb-999d5fcbc-n5k55    #### delete the pods
+
+kubectl delete deployments <Name>   ### delete the all deployments, replicas, pods
+
+kubectl delete svc <Name>   ### delete services
+
+
+
+
+======================================================================================================================================
+
+##### WORKER NODE #####
+
+#!/bin/bash
+
+export NODE-1_IP=<172.31.15.230 Public IP>
+
+sudo apt-get update && apt-get upgrade -y
+
+sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+
+sudo cat <<EOF > /etc/apt/sources.list.d/kubernetes.list
+deb http://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+
+sudo apt-get update -y
+
+sudo apt-get install -y docker.io
+
+sudo apt-get install -y --allow-unauthenticated kubelet kubeadm kubectl kubernetes-cni
+
+#Copy and paste Join – Token from master
+sudo kubeadm join --token f8cee2.60a21b1b0c5be636 35.172.109.185:6443 --discovery-token-ca-cert-hash sha256:2ef97a0a76c95d85775cc9eba2008f0f5d83dd3edfa772992efc4725b47a0637
+
+
+
+# MOVE ADMIN.CONF FILE TO NODE
+
+# Copy Node Pem-Key to /home/ubuntu folder
+
+sudo scp -i /home/ubuntu/madhu.pem -r /etc/kubernetes/admin.conf ubuntu@34.236.244.6:/tmp
+
+# Export Config File #
+
+sudo cp /tmp/admin.conf $HOME/
+
+sudo chown $(id -u):$(id -g) $HOME/admin.conf
+
+export KUBECONFIG=$HOME/admin.conf
+
+
+
+
+wget https://github.com/kubernetes/kops/releases/download/1.6.1/kops-linux-amd64
+
+kops create cluster --cloud=aws --zones=us-east-1a --name=madhava567.cluster --dns-zone=madhava567 --dns private
+
+
+
+kops create cluster --node-count 1 --name=domain.com --zones us-east-1a,us-east-1b,us-east-1c \
+    --master-zones us-east-1a,us-east-1b,us-east-1c \
+    --state s3://madhava567 \
+    --dns-zone=madhava567 \
+    --dns public \
+    --node-size t2.micro \
+    --master-size t2.micro \
+    --topology public \
+    --networking weave \
+    --vpc=vpc-fc505c84
+
+
+
+
+curl -LO https://storage.googleapis.com/kubernetesrelease/release/$(curl -s https://storage.googleapis.com/kubernetesrelease/release/stable.txt)/bin/linux/amd64/kubectl
+ 
+   
+   
+   
+kops create cluster --cloud=aws --zones=us-east-1a --name=madhu.com --dns-zone=madhava567 --dns private   
+   
+   
+   
+   
+   
+curl -s https://storage.googleapis.com/kubernetesrelease/release/stable.txt)/bin/linux/amd64/kubectl   
+   
+   
+   
+   
+   export KUBECONFIG="${KUBECONFIG}:$(pwd)/kubeconfig"
+   
+   
+   aws s3 cp s3://madhava567/madhu.com/pki/private/kubecfg/ /root/
+   
+   

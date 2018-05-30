@@ -1,0 +1,8 @@
+docker search ubuntu
+docker volume ls
+docker volume create data
+docker login
+docker push <IMAGE NAME>
+docker login -u 567madhava -p bharath
+docker push 567madahva/imagefiles:ubuntu
+

@@ -1,0 +1,148 @@
+# IPTABLE TYPES
+
+1. Default  = iptables -L -n -v
+	INPUT, OUTPUT, FORWARD
+
+2. NAT		= iptables -L -n -v -t nat
+	Network address translation
+	REROUTING, POSTROUTING, OUTPUT
+
+3. Mangle		= iptables -L -n -v -t mangle
+	Used for packet altering
+	INPUT, OUTPUT, REROUTING, POSTROUTING, FORWARD
+ 
+
+
+
+
+# ACCEPT
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+iptables -A OUTPUT -p tcp --dport 80 -j ACCEPT
+iptables -A INPUT  -p tcp -m multiport --dports 22,80,443 -j ACCEPT
+iptables -A OUTPUT -p tcp -m multiport --sports 22,80,443 -j ACCEPT
+
+
+
+
+
+
+
+
+
+# DROP
+iptables -A INPUT -p tcp --dport 80 -j DROP
+iptables -A OUTPUT -p tcp --dport 80 -j DROP
+iptables -A INPUT -s 192.168.0.0 -j DROP
+iptables -A INPUT -p icmp -s 192.168.5.89 -j DROP
+
+
+
+
+
+# DROP MAC ADDRESS
+iptables -A INPUT -m mac --mac-source 08:8c:29:86:a5:3d -j DROP
+
+
+
+
+iptables -A OUTPUT -p tcp -d 192.168.100.0/24 --dport 22 -j ACCEPT
+
+
+
+
+# ACCEPT IP Address
+iptables -A INPUT -s xxx.xxx.xxx.xxx -j ACCEPT
+iptables -A INPUT -s xxx.xxx.xxx.xxx -j DROP
+
+
+
+
+# Port Forwarding in IPtables
+iptables -t nat -A PREROUTING -p tcp --dport 2222 -j REDIRECT --to-port 22
+iptables -L -n -v -t nat
+
+
+#Show IPTABLE Details
+iptables -L -n
+
+
+
+
+
+# DROP & ACCEPT ALL PORT
+iptables -P INPUT DROP
+iptables -P INPUT ACCEPT
+
+
+
+
+
+#Delete existing role
+iptables -D INPUT 5
+iptables -D FORWARD 5
+iptables -D OUTPUT 5
+iptables -D INPUT -p icmp -s 192.168.5.89 -j DROP
+
+
+
+TCP   # Data Transfer protocol
+icmp   # Ping protocol
+
+
+
+
+#Block loop back IP
+ping 127.0.0.1
+iptables -A INPUT -i lo -j DROP
+
+
+
+
+iptables -A INPUT -i eth0 -j LOG --log-prefix "rejected packets:"
+
+
+# set the no of connection requrest /minit 
+iptables -A INPUT -p tcp --dport 80 -m limit --limit 110/minute --limit-burst 150 -j ACCEPT
+ 
+# Block more then 3 times excess
+iptables -A INPUT -p tcp --syn --dport 22 -m connlimit --connlimit-above 3 -j REJECT
+
+
+# Crete new chain
+iptables -N new-chain
+iptables -N new-chain -t nat
+iptables -N new-chain -t mangle
+
+
+# Delete chain
+iptables -X new-chain
+iptables -X new-chain -t nat
+iptables -X new-chain -t mangle
+
+
+
+
+
+iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+iptables -A INPUT -m conntrack --ctstate INVALID -j DROP
+ 
+
+iptables -A INPUT -i eth0 -s 192.168.5.89 -j DROP
+
+
+#Drop all SMTP outgoing mails 
+iptables -A OUTPUT -p tcp -m multiport --dport 25,465,587 -j REJECT
+ 
+ 
+#save IPTABLES 
+service iptables save
+
+
+# CLEAT ALL IPTABLES
+iptables -F (DONT USE)
+iptables -F -t nat (DONT USE)
+iptables -F -t mangle (DONT USE)  
+ 
+ 
+ 
+ 

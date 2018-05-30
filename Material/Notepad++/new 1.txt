@@ -1,0 +1,1 @@
+knife bootstrap 54.159.118.147 --sudo -x ubuntu -i C:\Users\USER\Documents\linux.pem -N "Srinu2" -r "recipe[jenkins-server]"

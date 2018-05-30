@@ -1,0 +1,3 @@
+http://symfony.com/legacy/doc/reference/1_3/en/02-YAML
+https://learn.getgrav.org/advanced/yaml
+https://circleci.com/blog/what-is-yaml-a-beginner-s-guide/

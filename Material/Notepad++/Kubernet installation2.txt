@@ -1,0 +1,8 @@
+Kubernet yuotube 
+	https://www.youtube.com/watch?v=6xJwQgDnMFE
+	https://www.youtube.com/redirect?q=https%3A%2F%2Fblog.alexellis.io%2Fkubernetes-in-10-minutes%2F&event=video_description&v=6xJwQgDnMFE&redir_token=xjMfAqECYN47mB8FdC8hD4SZWgF8MTUyMDY4NjgwOEAxNTIwNjAwNDA4
+	
+	sriu
+	https://medium.com/@SystemMining/setup-kubenetes-cluster-on-ubuntu-16-04-with-kubeadm-336f4061d929
+	
+	

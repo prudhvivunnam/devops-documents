@@ -1,0 +1,74 @@
+#!groovy
+node {
+	def gitUrl = 'https://bitbucket.org/Sentara/mysentara_web.git'
+	def sourceBranch = 'release'
+    currentBuild.result = "SUCCESS"
+    try {
+
+       stage('Checkout'){
+
+//          checkout scm  --- use this when JenkinsFile is checked in git
+
+			checkout changelog: true, poll: false,
+					scm: [$class                           : 'GitSCM',
+						  branches                         : [
+								  [name: '*/release']
+						  ],
+						  doGenerateSubmoduleConfigurations: false,
+						  extensions                       : [],
+						  submoduleCfg                     : [],
+						  userRemoteConfigs                : [
+								  [name: 'origin',url: gitUrl,credentialsId:'4d26be22-c2a8-409b-8615-279b986cfc60']
+						  ]
+					]
+       }
+
+	/*	stage('Create Docker Image') {
+			sh '''docker-compose -f docker-compose-development.yml build
+			docker run -d --name sentarawebpackc_${BUILD_NUMBER} sentarawebpack:latest
+			'''
+		}
+    stage('Build') {
+      sh '''docker exec sentarawebpackc_${BUILD_NUMBER} npm run build'''
+    }
+    stage('CopyWebPack') {
+    			sh '''
+                docker cp sentarawebpackc_${BUILD_NUMBER}:/usr/src/app/application/myHealth/ .
+
+                docker stop sentarawebpackc_${BUILD_NUMBER}
+
+                docker rm sentarawebpackc_${BUILD_NUMBER}
+
+                docker rmi sentarawebpack
+                '''
+
+    		}
+        stage('Create MySentara Application Image') {
+              sh '''docker-compose -f docker-compose.testing.yml build'''
+        }
+        stage('Login to Sentara Image repository') {
+          sh '''docker login mydockerregistrys.azurecr.io -u myDockerRegistryS -p 6pDb5e+hUNX4DPfDtKdxgibfYQU92deY'''
+        }
+        stage('Tag mySentara Image with Build Number') {
+          sh '''docker tag sentara:latest mydockerregistrys.azurecr.io/sentara:dev_${BUILD_NUMBER}'''
+        }
+	   stage('Push Image to Sentara Image repositiory') {
+			sh '''docker push mydockerregistrys.azurecr.io/sentara:dev_${BUILD_NUMBER}'''
+       }
+
+       stage('Run WebApplication Container'){
+            sh '''docker pull mydockerregistrys.azurecr.io/sentara:dev_${BUILD_NUMBER}
+             docker run -d --name sentaradev_${BUILD_NUMBER} -p 80:80 mydockerregistrys.azurecr.io/sentara:dev_${BUILD_NUMBER}'''
+       }
+
+       stage('Cleanup'){
+       }
+
+    }
+    catch (err) {
+
+        currentBuild.result = "FAILURE"
+        throw err
+    }
+*/
+}

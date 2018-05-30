@@ -1,0 +1,57 @@
+kops create cluster \
+--cloud=aws \
+--zones=us-east-1a,us-east-1b,us-east-1c \
+--node-size=t2.micro \
+--master-size=t2.micro \
+--node-count=1 \
+--master-count=1 \
+--dns-zone=my.madhava567.com \
+--name=useast2.my.madhava567.com \
+--vpc=vpc-523b4029 \
+--network-cidr=172.10.0.0/16 \
+--ssh-public-key=~/.ssh/id_rsa.pub
+
+
+
+
+list clusters with: kops get cluster
+ * edit this cluster with: kops edit cluster useast3.my.madhava567.com
+ * edit your node instance group: kops edit ig --name=useast3.my.madhava567.com nodes
+ * edit your master instance group: kops edit ig --name=useast3.my.madhava567.com master-us-east-1d
+
+Finally configure your cluster with: kops update cluster useast3.my.madhava567.com --yes
+
+
+
+
+
+Suggestions:
+ * validate cluster: kops validate cluster
+ * list nodes: kubectl get nodes --show-labels
+ * ssh to the master: ssh -i ~/.ssh/id_rsa admin@api.useast3.my.madhava567.com
+The admin user is specific to Debian. If not using Debian please use the appropriate user based on your OS.
+ * read about installing addons: https://github.com/kubernetes/kops/blob/master/docs/addons.md
+
+ 
+ 
+ 
+ M3BI INDIA PRIVATE LIMITED
+
+Email Address:supriya.gaikwad@m3bi.com
+
+
+Email Address:varsha.sah@broctagon.com
+
+18605006633
+
+1136945993
+
+18602086633
+
+
+
+HR
+
+56633
+
+90405 90405

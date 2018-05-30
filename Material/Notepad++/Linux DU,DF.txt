@@ -1,0 +1,26 @@
+DU COMMAND # Disc Space
+du -h /home/usr/   # Show /home/usr/ location all file sizes
+du -sh  # Only show total size
+du -ah  # Show all files & folders in sub-directorys.
+du -ch  # Show Grand total
+du -ah .[!.]* *  # Show Hidden file size
+du -ah --exclude="*.txt"  # Skip the text file & Show remaining files
+du -ah --time  # Show modification size of file
+
+
+
+
+
+DF COMMAND # Disc File Sysytem
+df -h     # show available dics size (-h = human readable format)
+df -ah     # show all
+df -h --total    # show grand total size
+df -B 1G		# show in GB
+df -B 1M		# show in MB
+df -B 1K		# show in KB
+df -h /etc		# show /etc directory usage details
+df -i 		# show i-node size & usage details
+df -i /etc		# show /etc directory i-node usage details
+df -Th		# Show file system type
+df -Tht	ext4	# Show include option (only show ext4 type file system)
+df -Thx	ext4	# Show enclude option (show remaining file system type expect ext4 type)

@@ -1,0 +1,78 @@
+Management Commands:
+  container   Manage containers
+  image       Manage images
+  network     Manage networks
+  node        Manage Swarm nodes
+  plugin      Manage plugins
+  secret      Manage Docker secrets (Store passwords)
+  service     Manage services
+  stack       Manage Docker stacks (Creating Stack like cloud formation)
+  swarm       Manage Swarm
+  system      Manage Docker (df, events, info, prune Show the information of docker)
+  volume      Manage volumes
+
+  
+  
+ 
+  
+Commands:
+  
+  
+  attach      Attach to a running container
+  exec        Run a command in a running container
+  
+  
+    
+  build       Build an image from a Dockerfile
+  commit      Create a new image from a Container
+  tag         Create a modify image name with your own name & new version
+  
+  
+  
+  create      Create a new container only (it cannot run)
+  
+  
+  
+  cp          Copy files/folders between a container and the local filesystem
+  
+  
+  
+  export      Export a container's filesystem as a tar archive (Container converted to Tar File)
+  save        Save one or more images to a tar archive (streamed to STDOUT by default) (Save one or More Image 		converted to Tar File)
+  load        Load an image from a tar archive or STDIN	( docker load --input fedora.tar )
+  import      Import the contents from a tarball to create a filesystem image
+  
+  
+  
+  events      Get real time events from the server
+  
+  
+    
+  
+  info        Display system-wide information
+  inspect     Return low-level information on Docker objects
+  diff        Inspect changes on a container's filesystem
+  history     Show the history of an image
+  
+  
+  
+    
+ 
+  
+  logs        Fetch the logs of a container
+  port        List port mappings or a specific mapping for the container
+  
+  rename      Rename a container
+  
+  
+  
+  search      Search the Docker Hub for images
+
+  
+
+  top         Display the running processes of a container
+  unpause     Unpause all processes within one or more containers
+  update      Update configuration of one or more containers
+ 
+  wait        Block until one or more containers stop, then print their exit codes
+

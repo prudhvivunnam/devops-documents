@@ -1,0 +1,167 @@
+##### MASTER NODE #####
+
+#!/bin/bash
+
+#Expose the Master I
+export MASTER_IP=<<<PUBLIC IP>>>
+
+
+# Update the Ubuntu & Upgrade 
+sudo apt-get update && apt-get upgrade -y
+
+
+#
+sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+
+
+#
+sudo cat <<EOF > /etc/apt/sources.list.d/kubernetes.list
+deb http://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+
+
+#
+sudo apt-get update -y
+
+
+#
+sudo apt-get install -y docker.io
+
+sudo apt-get install -y --allow-unauthenticated kubelet kubeadm kubectl kubernetes-cni
+
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16  --apiserver-advertise-address $MASTER_IP
+
+
+
+### Copy Joining TOKEN ###
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+sudo cp /etc/kubernetes/admin.conf $HOME/
+
+sudo chown $(id -u):$(id -g) $HOME/admin.conf
+
+export KUBECONFIG=$HOME/admin.conf
+
+sudo curl -sSL "https://github.com/coreos/flannel/blob/master/Documentation/kube-flannel.yml?raw=true" | kubectl --namespace=kube-system create -f -
+
+sudo kubectl apply -f https://rawgit.com/kubernetes/dashboard/master/src/deploy/kubernetes-dashboard.yaml --namespace=kube-system
+
+
+
+
+
+
+
+### COMMANDS ###
+
+kubectl cluster-info
+
+kubectl get nodes   # Show available nodes list
+
+kubectl get pods   # Show available pods list
+
+kubectl get deployments
+
+kubectl get rs                #### show the replicas details
+
+kubectl get service (OR)    ### show the exposed port no
+kubectl get svc
+
+kubectl get cs    # Show cluster information
+
+kubectl get pods --all-namespaces
+
+kubectl get deployments   ### show the deployments details
+kubectl get deploy
+
+
+
+kubectl run --image=nginx <Container Name>
+
+
+
+
+
+kubectl logs <Container name>
+
+kubectl expose pod myweb-999d5fcbc-n5k55 --port=80 --target-port=80 --type=NodePort  ###Expose the container port
+
+kubectl describe pod web-pod  ## Show the web pod details
+
+
+
+
+
+kubectl scale rs/web-rs --replicas=10      ##### increase the replicas 10 no
+
+kubectl scale rs/web-rs --replicas=2      ##### decrease the replicas from 10 to 2 no
+
+
+
+
+
+
+
+ 
+
+kubectl create -f db-pod.yml -f db-service.yml -f web-pod.yml -f web-service.yml
+
+
+
+kubectl delete pod myweb-999d5fcbc-n5k55    #### delete the pods
+
+kubectl delete deployments <Name>   ### delete the all deployments, replicas, pods
+
+kubectl delete svc <Name>   ### delete services
+
+
+
+
+
+
+
+
+# MOVE ADMIN.CONF FILE TO NODE
+
+sudo scp -i /home/ubuntu/madhu.pem -r /etc/kubernetes/admin.conf ubuntu@34.236.244.6:/tmp
+
+
+
+vvvvv
+
+
+
+
+
+
+##### WORKER NODE #####
+
+#!/bin/bash
+
+export NODE-1_IP=<172.31.15.230 Public IP>
+
+sudo apt-get update && apt-get upgrade -y
+
+sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+
+sudo cat <<EOF > /etc/apt/sources.list.d/kubernetes.list
+deb http://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+
+sudo apt-get update -y
+
+sudo apt-get install -y docker.io
+
+sudo apt-get install -y --allow-unauthenticated kubelet kubeadm kubectl kubernetes-cni
+
+#Copy and paste Join – Token from master
+sudo kubeadm join --token f8cee2.60a21b1b0c5be636 35.172.109.185:6443 --discovery-token-ca-cert-hash sha256:2ef97a0a76c95d85775cc9eba2008f0f5d83dd3edfa772992efc4725b47a0637
+
+
+
+
+ 
+   
+   
+   
